@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,6 +13,8 @@ import java.nio.file.Paths;
 @Controller
 @RequestMapping("/UPLOAD")
 public class Upload {
+
+
     //Save the uploaded file to this folder
     private static String UPLOADED_FOLDER = "/tmp/";
 
@@ -19,6 +22,22 @@ public class Upload {
     public String index() {
         return "upload";
     }
+
+    @GetMapping("/uploadFile")
+    public String test(@RequestParam MultipartFile uploadFile) throws IOException {
+        // 原文件名称
+        System.out.println("uploadFile.getOriginalFilename() = " + uploadFile.getOriginalFilename());
+        // 文件的接收参数 @RequestParam MultipartFile uploadFile中的 uploadFile
+        System.out.println("uploadFile.getName() = " + uploadFile.getName());
+        // 文件的类型
+        System.out.println("uploadFile.getContentType() = " + uploadFile.getContentType());
+        System.out.println("uploadFile.getResource() = " + uploadFile.getResource());
+        System.out.println("uploadFile.getBytes() = " + uploadFile.getBytes());
+        // 文件大小
+        System.out.println("uploadFile.getSize() = " + uploadFile.getSize());
+        return "ok";
+    }
+
 
     @PostMapping("/upload")
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
